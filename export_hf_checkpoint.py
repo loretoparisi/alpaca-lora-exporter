@@ -12,9 +12,15 @@ assert (
 from transformers import LlamaTokenizer, LlamaForCausalLM
 
 BASE_MODEL = None
+LORA_MODEL = None
+
 assert (
     BASE_MODEL
 ), "Please specify a BASE_MODEL in the script, e.g. 'decapoda-research/llama-7b-hf'"
+
+assert (
+    LORA_MODEL
+), "Please specify a BASE_MODEL in the script, e.g. 'tloen/alpaca-lora-7b'"
 
 tokenizer = LlamaTokenizer.from_pretrained(BASE_MODEL)
 
@@ -30,7 +36,7 @@ first_weight_old = first_weight.clone()
 
 lora_model = PeftModel.from_pretrained(
     base_model,
-    "tloen/alpaca-lora-7b",
+    LORA_MODEL,
     device_map={"": "cpu"},
     torch_dtype=torch.float16,
 )
