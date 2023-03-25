@@ -9,10 +9,17 @@ import transformers
 from transformers.models.llama.tokenization_llama import LLaMATokenizer
 from transformers import AutoTokenizer, AutoConfig, LLaMAForCausalLM 
 
-BASE_MODEL = "decapoda-research/llama-7b-hf"
+BASE_MODEL = None
+LORA_MODEL = None
+
 assert (
     BASE_MODEL
 ), "Please specify a BASE_MODEL in the script, e.g. 'decapoda-research/llama-7b-hf'"
+
+assert (
+    LORA_MODEL
+), "Please specify a BASE_MODEL in the script, e.g. 'teelinsan/camoscio-7b-llama'"
+
 
 tokenizer = LLaMATokenizer.from_pretrained(BASE_MODEL)
 
@@ -25,7 +32,7 @@ base_model = LLaMAForCausalLM.from_pretrained(
 
 lora_model = PeftModel.from_pretrained(
     base_model,
-    "teelinsan/camoscio-7b-llama",
+    LORA_MODEL,
     device_map={"": "cpu"},
     torch_dtype=torch.float16,
 )
